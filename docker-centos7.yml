@@ -1,0 +1,30 @@
+---
+- hosts: server
+
+  tasks:
+  - name: 删除旧版本的docker
+    yum: name=docker,docker-client,docker-client-latest,docker-common,docker-latest,docker-latest-logrotate,docker-logrotate,docker-engine state=removed
+
+  - name: 安装yum-utils
+    yum: name=yum-utils state=installed
+
+  - name: 安装device-mapper-persistent-data
+    yum: name=device-mapper-persistent-data state=installed
+
+  - name: 安装lvm2
+    yum: name=lvm2 state=installed
+
+  - name: 配置repository
+    shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+  - name: 安装docker-ce
+    yum: name=docker-ce state=installed
+
+  - name: 安装docker-ce-cli
+    yum: name=docker-ce-cli state=installed
+
+  - name: 安装containerd.io
+    yum: name=containerd.io state=installed
+
+  - name: 启动docker
+    service: name=docker state=started enabled=yes
