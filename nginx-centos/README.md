@@ -1,4 +1,4 @@
-### 简要说明
+### nginx-install简要说明
 - 默认centos环境
 - 需要把pcre和nginx的源码包放到nginx/files目录下，并把相应的版本填写到nginx/vars/main.yml中
 - 需要把nginx.conf放到nginx/templates/nginx.conf.j2
