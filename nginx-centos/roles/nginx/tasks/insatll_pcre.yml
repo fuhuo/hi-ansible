@@ -1,0 +1,2 @@
+- name: 安装pcre
+  shell: cd {{ temp_path }}/pcre-{{ pcre_version }} && ./configure && make -j$(cat /proc/cpuinfo |grep process|wc -l) && make install

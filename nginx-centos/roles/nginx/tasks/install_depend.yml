@@ -1,0 +1,2 @@
+- name: 安装依赖包
+  yum: name=make,zlib,zlib-devel,gcc-c++,libtool,openssl,openssl-devel state=installed

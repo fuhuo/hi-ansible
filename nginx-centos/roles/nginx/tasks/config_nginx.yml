@@ -1,0 +1,4 @@
+- name: 配置nginx
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_install_path }}/conf/nginx.conf"

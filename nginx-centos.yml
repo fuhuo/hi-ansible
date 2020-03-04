@@ -1,0 +1,48 @@
+---
+- hosts: test
+  vars:
+    pcre_version: 8.41
+    nginx_version: 1.16.1
+    temp_path: /tmp/nginx_install
+    nginx_module_options: '--prefix=/usr/local/nginx --with-http_ssl_module'
+
+  tasks:
+    - name: 新建临时目录
+      shell: mkdir -p {{ temp_path }}
+      ignore_error: true
+
+    - name: 安装依赖包
+      yum: name=make,zlib,zlib-devel,gcc-c++,libtool,openssl,openssl-devel state=installed
+
+    - name: 下载pcre包
+      get_url:
+        url: http://downloads.sourceforge.net/project/pcre/pcre/{{ pcre_version }}/pcre-{{ pcre_version }}.tar.gz
+        dest: "{{ temp_path }}"
+        validate_certs: no
+        force: yes
+
+    - name: 解压pcre包
+      unarchive:
+        src: "{{ temp_path }}/pcre-{{ pcre_version }}.tar.gz"
+        dest: "{{ temp_path }}"
+        mode: 0755
+        copy: no
+      
+    - name: 安装pcre
+      shell: cd {{ temp_path }}/pcre-{{ pcre_version }} && ./configure && make -j$(cat /proc/cpuinfo |grep process|wc -l) && make install
+
+    - name: 下载nginx
+      get_url:
+        url: http://nginx.org/download/nginx-{{ nginx_version }}.tar.gz
+        dest: "{{ temp_path }}"
+        mode: 0755
+
+    - name: 解压nginx
+      unarchive:
+        src: "{{ temp_path }}/nginx-{{ nginx_version }}.tar.gz"
+        dest: "{{ temp_path }}"
+        mode: 0755
+        copy: no
+
+    - name: 安装nginx
+      shell: cd {{ temp_path }}/nginx-{{ nginx_version }} && ./configure {{ nginx_module_options }} && make -j$(cat /proc/cpuinfo |grep process|wc -l) && make install

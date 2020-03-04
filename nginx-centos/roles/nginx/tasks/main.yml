@@ -1,0 +1,17 @@
+- name: test
+  shell: echo {{ nginx_version }}
+
+- name: 安装依赖
+  include_tasks: install_depend.yml
+
+- name: 解压源码
+  include_tasks: unarchive.yml
+
+- name: 安装pcre
+  include_tasks: install_pcre.yml
+
+- name: 安装nginx
+  include_tasks: install_nginx.yml
+
+- name: 配置nginx
+  include_tasks: config_nginx.yml

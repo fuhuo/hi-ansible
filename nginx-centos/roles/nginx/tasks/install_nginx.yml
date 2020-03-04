@@ -1,0 +1,2 @@
+- name: 安装nginx
+  shell: cd {{ temp_path }}/nginx-{{ nginx_version }} && ./configure {{ nginx_module_options }} && make -j$(cat /proc/cpuinfo |grep process|wc -l) && make install

@@ -1,0 +1,16 @@
+- name: 创建临时目录
+  file:
+    path: "{{ temp_path }}"
+    state: directory
+
+- name: 解压pcre源文件
+  unarchive:
+    src: "pcre-{{ pcre_version }}.tar.gz"
+    dest: "{{ temp_path }}"
+    copy: yes
+
+- name: 解压nginx源文件
+  unarchive:
+    src: "nginx-{{ nginx_version }}.tar.gz"
+    dest: "{{ temp_path }}"
+    copy: yes
